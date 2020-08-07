@@ -2,7 +2,7 @@
 
 COVID-19 Romania
 
-[How cases were related, multiple graphs](https://alexaac.github.io/covid-19-ro-cases-relations)
+[How cases were related, multiple graphs](https://alexaac.github.io/covid-19-ro-cases-relations-all)
 
 Inspiration from [Kontinentalist](https://kontinentalist.com/stories/singapore-coronavirus-cases-spread-connections).
 
