@@ -9,6 +9,11 @@ export const tooltip_div = d3.select('body')
    .style('display', 'none');
 
 export const highlight = (d, cases) => {
+    let positioning = d3.select('#positioning').node().value;
+
+    if (positioning === 'clusters') {
+        return;
+    };
 
     let left = d3.event.pageX -20;
     let top = d3.event.pageY + 20;
@@ -68,7 +73,6 @@ export const tooltipHTML = (d) => {
         let language = d3.select('#language').node().value;
 
         let labels = {
-            valueLabel: { 'ro': 'cazuri legate', 'en': 'clustered cases' },
             cazulLabel: { 'ro': 'Cazul', 'en': 'Case' },
             maleLabel: { 'ro': 'Bărbat', 'en': 'Male' },
             femaleLabel: { 'ro': 'Femeie', 'en': 'Female' },
@@ -84,8 +88,7 @@ export const tooltipHTML = (d) => {
             aiciLabel: { 'ro': 'aici', 'en': 'here' },
         };
 
-        let cazuriInfo = d.infected_persons ? (d.infected_persons + ' ' + labels.valueLabel[language] + '.<br />') : '',
-            genderInfo = d.properties.gender === 'Bărbat'
+        let genderInfo = d.properties.gender === 'Bărbat'
                 ? labels.maleLabel[language]
                 : (d.properties.gender === 'Femeie'
                     ? labels.femaleLabel[language]
@@ -118,11 +121,9 @@ export const tooltipHTML = (d) => {
                 ? (labels.detailsLabel[language] + ': ' + '<a href="' + d.properties.reference + '" target= "_blank">'+ labels.aiciLabel[language] +'</a>')
                 : '';
 
-        // return '<b>' + labels.cazulLabel[language] + ' ' + d.properties.case_no + '</b>' +
-        return '<b>' + labels.cazulLabel[language] + ' ' + 'x' + '</b>' +
+        return '<b>' + labels.cazulLabel[language] + ' ' + d.properties.case_no + '</b>' +
             // genderInfo + ageInfo +
             countyInfo + '.<br />' +
-            cazuriInfo + // Note: a case id can have 303 related cases from two counties, and 301 from the same county in the Pack graphic
             statusInfo +
             diagnosticDateInfo +
             healingDateInfo +
@@ -177,3 +178,8 @@ export const toggleInfo = (infoStatus, language) => {
     return infoStatus;
 };
 
+export const hovered = (hover) => {
+    return (d) => {
+        d3.selectAll(d.ancestors().map(d => d.node)).classed('node--hover', hover);
+    };
+};
